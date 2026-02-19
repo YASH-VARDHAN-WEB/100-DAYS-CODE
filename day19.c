@@ -1,27 +1,32 @@
 #include <stdio.h>
+#include <stdlib.h>   // for abs()
 
 int main() {
-    int a, b, hcf, lcm, tempA, tempB, temp;
+    int n;
+    scanf("%d", &n);
 
-    // Input two numbers
-    printf("Enter two positive integers: ");
-    scanf("%d %d", &a, &b);
+    int arr[n];
 
-    tempA = a;
-    tempB = b;
-
-    // Find HCF using Euclidean algorithm
-    while (tempB != 0) {
-        temp = tempB;
-        tempB = tempA % tempB;
-        tempA = temp;
+    for(int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
     }
-    hcf = tempA;
 
-    // Calculate LCM
-    lcm = (a * b) / hcf;
+    int min_sum = abs(arr[0] + arr[1]);
+    int x = arr[0], y = arr[1];
 
-    printf("LCM of %d and %d is %d\n", a, b, lcm);
+    for(int i = 0; i < n - 1; i++) {
+        for(int j = i + 1; j < n; j++) {
+            int sum = arr[i] + arr[j];
+            
+            if(abs(sum) < min_sum) {
+                min_sum = abs(sum);
+                x = arr[i];
+                y = arr[j];
+            }
+        }
+    }
+
+    printf("%d %d", x, y);
 
     return 0;
 }

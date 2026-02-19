@@ -1,27 +1,32 @@
-#include <stdio.h>
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
 
-int main() {
-    int num, sum = 0, remainder;
+int min(int a, int b) {
+    return (a < b) ? a : b;
+}
 
-    // Input number
-    printf("Enter an integer: ");
-    scanf("%d", &num);
-
-    int original = num; // Store original number
-
-    // Handle negative numbers
-    if (num < 0) {
-        num = -num;
+int maxSubarraySumCircular(int* nums, int numsSize) {
+    int total = 0;
+    
+    int curMax = 0, maxSum = nums[0];
+    int curMin = 0, minSum = nums[0];
+    
+    for(int i = 0; i < numsSize; i++) {
+        total += nums[i];
+        
+        // Normal Kadane (Maximum Subarray)
+        curMax = max(nums[i], curMax + nums[i]);
+        maxSum = max(maxSum, curMax);
+        
+        // Minimum Subarray
+        curMin = min(nums[i], curMin + nums[i]);
+        minSum = min(minSum, curMin);
     }
-
-    // Sum the digits
-    while (num != 0) {
-        remainder = num % 10;  // Get last digit
-        sum += remainder;      // Add it to sum
-        num /= 10;             // Remove last digit
-    }
-
-    printf("Sum of digits of %d = %d\n", original, sum);
-
-    return 0;
+    
+    // If all numbers are negative
+    if(maxSum < 0)
+        return maxSum;
+    
+    return max(maxSum, total - minSum);
 }
